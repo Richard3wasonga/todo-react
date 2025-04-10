@@ -1,4 +1,5 @@
 import AddTaskForm from './components/AddTaskForm';
+import DemonstratingState from './components/DemonstratingState';
 import Header from './components/Header';
 import TasksContainer from './components/TasksContainer';
 import TasksCount from './components/TasksCount';
@@ -9,7 +10,8 @@ const App = () => {
 			<Header />
 			<AddTaskForm />
 			<TasksContainer />
-			<TasksCount/>
+			<TasksCount />
+			<DemonstratingState />
 		</div>
 	);
 };
