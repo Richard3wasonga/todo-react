@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from './Button';
 import Input from './Input';
+import { API_URL } from '../App';
 
 const AddTaskForm = ({ todos, setTodos }) => {
 	const [newTodo, setNewTodo] = useState({
@@ -12,7 +13,10 @@ const AddTaskForm = ({ todos, setTodos }) => {
 	async function handleSubmit(e) {
 		e.preventDefault();
 
+		const tempId = Date.now()
+
 		const newTask ={
+			id: tempId,
 			title: newTodo.title,
 			completed: false,
 		}
@@ -20,6 +24,24 @@ const AddTaskForm = ({ todos, setTodos }) => {
 		setTodos([...todos, newTask])
 
 		setNewTodo({title: '', completed: false})
+
+		try{
+			const response = await fetch(API_URL,{
+				method: 'POST',
+				headers: {
+					'Content-Type' : 'application/json',
+				},
+				body: JSON.stringify(newTask)
+			})
+			if(!response.ok){
+				setTodos(prev => prev.filter(todo => todo.id !== tempId))
+				console.error('Failed to save task to server')
+			}
+		}catch(error){
+			setTodos(prev => prev.filter(todo => todo.id !== tempId))
+			console.error('Error', error)
+		}
+	
 	}
 
 	return (
