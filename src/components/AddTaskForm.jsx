@@ -8,8 +8,18 @@ const AddTaskForm = ({ todos, setTodos }) => {
 		completed: false,
 	});
 
+	
 	async function handleSubmit(e) {
 		e.preventDefault();
+
+		const newTask ={
+			title: newTodo.title,
+			completed: false,
+		}
+
+		setTodos([...todos, newTask])
+
+		setNewTodo({title: '', completed: false})
 	}
 
 	return (
