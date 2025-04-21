@@ -13,10 +13,11 @@ const AddTaskForm = ({ todos, setTodos }) => {
 	async function handleSubmit(e) {
 		e.preventDefault();
 
-		const tempId = Date.now()
+		const lastId = todos.length > 0 ? parseInt(todos[todos.length - 1].id) : 0;
+        const newId = (lastId + 1).toString();
 
 		const newTask ={
-			id: tempId,
+			id: newId,
 			title: newTodo.title,
 			completed: false,
 		}
@@ -34,11 +35,11 @@ const AddTaskForm = ({ todos, setTodos }) => {
 				body: JSON.stringify(newTask)
 			})
 			if(!response.ok){
-				setTodos(prev => prev.filter(todo => todo.id !== tempId))
+				setTodos(prev => prev.filter(todo => todo.id !== newId))
 				console.error('Failed to save task to server')
 			}
 		}catch(error){
-			setTodos(prev => prev.filter(todo => todo.id !== tempId))
+			setTodos(prev => prev.filter(todo => todo.id !== newId))
 			console.error('Error', error)
 		}
 	
